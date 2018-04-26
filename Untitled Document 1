@@ -1,0 +1,38 @@
+Another weird thing in your command line is that you don't encode video. I assume you don't want raw YUV video to be streames, right?
+
+
+ffmpeg -s 320x240 -f video4linux2 -i /dev/video0 -f lavfi -i aevalsrc=0 -c:a libmp3lame http://localhost:7070/feed1.ffm
+
+
+
+ffmpeg -r 25 -s 640x480 -f video4linux2 -i /dev/video0 -f lavfi -i aevalsrc=0 -c:a libmp3lame http://localhost:8090/feed1.ffm
+
+
+
+
+ffmpeg -re -f video4linux2 -i /dev/video0 -vcodec copy -an -f rtp rtp://localhost:20000 -vn -acodec copy -f rtp rtp://localhost:30000 -newaudio
+
+
+ffmpeg -r 6 -f video4linux2 -i /dev/video0 -f mpegts udp://localhost:10020
+
+
+ffmpeg -r 6 -f video4linux2 -i /dev/video0 -c:v libx264 -f mpegts udp://localhost:10020
+
+
+ffmpeg -r 6 -f video4linux2 -i /dev/video0 -c:v libx264 -g 30 -keyint_min 30 -f  mpegts udp://localhost:10020
+ffmpeg -r 6 -f video4linux2 -i /dev/video0 -c:v libx264 -g 30 -keyint_min 30 -f  rtp rtp://localhost:10020
+
+
+
+ffmpeg -r 24 -f video4linux2 -i /dev/video0 -c:v libx264 -preset ultrafast -crf 22 -g 30 -keyint_min 10 -f  mpegts udp://localhost:10020
+
+ffmpeg -r 24 -f video4linux2 -i /dev/video0 -c:v copy -f  mpegts udp://localhost:10020
+
+
+
+
+ffmpeg -r 24 -f video4linux2 -i /dev/video0 -c:v libx264 -preset ultrafast -tune zerolatency -crf 22 -g 30 -keyint_min 10 -f  mpegts udp://localhost:10020
+
+ffmpeg -r 24 -f video4linux2 -i /dev/video0 -c:v libx264 -preset ultrafast -tune fastdecode -tune zerolatency -crf 22 -g 30 -keyint_min 10 -f  mpegts udp://localhost:10020
+
+ffmpeg -r 24 -f video4linux2 -i /dev/video0 -c:v libx264 -an -preset ultrafast -tune fastdecode -tune zerolatency -crf 22 -g 30 -keyint_min 20 -f  mpegts udp://localhost:10020
