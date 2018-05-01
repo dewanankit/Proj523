@@ -127,7 +127,7 @@ func modclass1(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	srv := http.Server{
-		Addr:    ":8001",
+		Addr:    ":8002",
 		ReadTimeout: 100 * time.Second,
 		WriteTimeout: 100 * time.Second,
 		Handler: &myHandler{},
